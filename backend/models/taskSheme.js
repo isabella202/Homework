@@ -10,4 +10,4 @@ const taskSheme = Scheme({
         ref:'Usuario'
     },
 });
-module.exports = model('Task', TaskSchema);
+module.exports = model('Task', taskSheme);
