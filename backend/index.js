@@ -1,6 +1,6 @@
 const express = require('express')
 require('dotenv').config()
-const {dbConnection} = require('./databse/config')
+const {dbConnection} = require('./database/config')
 const cors = require('cors')
 
 //Crear Express App
@@ -18,7 +18,8 @@ app.use(express.static('public'))
 app.use( express.json() );
 
 //Rutas
-app.use('/api/auth', require('./routes/auth'))
+app.use('/api/auth', require('./routes/auth.js'))
+app.use('/api/task', require('./routes/task.js'))
 
 //Escuchar en puerto 4000
 app.listen(process.env.PORT, ()=>{
@@ -28,7 +29,7 @@ app.listen(process.env.PORT, ()=>{
 //HEADERS
 const headers = {
     cors: {
-        origin:'url',
+        origin:'http://127.0.0.1:5173',
         methods:["GET", "POST"]
     }
 }

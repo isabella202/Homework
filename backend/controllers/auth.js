@@ -1,10 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const Usuario = require('../models/usuario');
-const { generarJWT } = require('../helpers/jwt')
+const Usuario = require('../models/usuario.js');
 
-const crearUsuario = async(req, res = express.request) => {
+
+const crearUsuario = async(req, res = express.response) => {
     const { name, email, password } = req.body
+    
     try{
         let usuario = await Usuario.findOne({email: email})
         if (usuario){
@@ -32,7 +33,7 @@ const crearUsuario = async(req, res = express.request) => {
     }
 }
 
-const loginUsuario = async(req, res = express.request) => {
+const loginUsuario = async(req, res = express.response) => {
     const { email, password } = req.body
 
     try{
@@ -51,12 +52,11 @@ const loginUsuario = async(req, res = express.request) => {
             })
         }
 
-        const token= await(generarJWT(usuario.id, usuario.name))
+        const token = await(generarJWT(usuario.id, usuario.name))
 
         res.status(200).json({
             ok: true,
             usuario,
-            token
         })
     } catch(error){
         console.log(error)
@@ -67,13 +67,14 @@ const loginUsuario = async(req, res = express.request) => {
     }
 }
 
-const revalidarToken = async(req, res = express.request) => {
+const revalidarToken = async(req, res = express.response) => {
     const {uid, name} = req
 
     const token = await(generarJWT(uid, name))
     
     res.json({
-        ok: true
+        ok: true,
+        token
     })
 }
 
