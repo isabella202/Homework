@@ -1,9 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const Usuario = require('../models/usuario.js');
+const Usuario = require('../models/UsuariosScheme');
+const { generarJWT } = require('../helpers/jwt')
 
-
-const crearUsuario = async(req, res = express.response) => {
+const crearUsuario = async (req, res = express.request) => {
     const { name, email, password } = req.body
     
     try{
@@ -33,7 +33,7 @@ const crearUsuario = async(req, res = express.response) => {
     }
 }
 
-const loginUsuario = async(req, res = express.response) => {
+const loginUsuario = async(req, res = express.request) => {
     const { email, password } = req.body
 
     try{
@@ -52,11 +52,12 @@ const loginUsuario = async(req, res = express.response) => {
             })
         }
 
-        const token = await(generarJWT(usuario.id, usuario.name))
+        const token = await( generarJWT(usuario.id, usuario.name) )
 
         res.status(200).json({
             ok: true,
             usuario,
+            token
         })
     } catch(error){
         console.log(error)
@@ -67,10 +68,10 @@ const loginUsuario = async(req, res = express.response) => {
     }
 }
 
-const revalidarToken = async(req, res = express.response) => {
+const revalidarToken = async(req, res = express.request) => {
     const {uid, name} = req
 
-    const token = await(generarJWT(uid, name))
+    const token = await( generarJWT(uid, name) )
     
     res.json({
         ok: true,

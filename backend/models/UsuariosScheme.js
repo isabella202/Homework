@@ -1,6 +1,6 @@
 const { Schema, model} = require('mongoose');
 
-const usuarioSchema = Schema({
+const UsuarioScheme = Schema({
     name: {
         type: String,
         require: true
@@ -14,7 +14,7 @@ const usuarioSchema = Schema({
         type: String,
         require: true
     }
-}, {
+},{
     toJSON:{
         virtuals: true
     },
@@ -22,11 +22,12 @@ const usuarioSchema = Schema({
         virtuals: true
     }
 });
-usuarioSchema.virtual('tareas', {
+
+UsuarioScheme.virtual('tareas', {
     ref: 'Task',
     localField: '_id',
     foreignField: 'user',
     justOne: false,
 })
 
-module.exports = model('Usuario', usuarioSchema);
+module.exports = model('Usuario', UsuarioScheme);

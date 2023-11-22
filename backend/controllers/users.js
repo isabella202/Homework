@@ -1,8 +1,11 @@
-const listarUsuarios = async(req, res = {}) => {
+const express = require('express');
+const Usuario = require('../models/UsuariosScheme');
+
+const listarUsuarios = async(req, res = express.request) => {
     const usuarios = await Usuario.find().populate('tareas', 'title')
 
     try{
-       res.status(200).json({
+        res.status(200).json({
                 ok: true,
                 usuarios,
             })
